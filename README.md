@@ -8,7 +8,9 @@ $$
 with boundary conditions:
 $$
  \phi = f(x, y, z) \quad \textrm{for} \quad (x, y, z) \in \partial \Omega_1
-
+$$
+and
+$$
  \frac{\partial \phi}{\partial n} = g(x, y, z) \quad \textrm{for} \quad (x, y, z) \in \partial \Omega_2
 $$
 
