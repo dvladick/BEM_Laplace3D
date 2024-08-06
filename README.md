@@ -16,9 +16,9 @@ where $\Omega$ - three dimensional region with boundary $\partial \Omega = \part
 
 ## Usage
 
-The program is implemented in the form of a main class 'BEMLaplace3D', which contains the main computationally complex ones - such as solving a system of linear equations, and calculating a solution for a given point in space. This class was accelerated using the 'numba' library, which gave a significant boost. The code also contains some auxiliary subroutines for working with the geometry specified in the STL format file and some simple subroutines for postprocessing.
+The program is implemented in the form of a main class **BEMLaplace3D**, which contains the main computationally complex ones - such as solving a system of linear equations, and calculating a solution for a given point in space. This class was accelerated using the **Numba** library, which gave a significant boost. The code also contains some auxiliary subroutines for working with the geometry specified in the STL format file and some simple subroutines for postprocessing.
     
-Let's describe an example of working with code to solve a specific problem. First of all, you need to set the geometry of the surface that limits the computational area; for a STL file this is done using a simple function \textbf{stl2points} that returns the $(N, 3)$ arrays of $x$, $y$ and $z$ coordinates of the boundary elements (triangles) and their number - $N$. Next, an instance of the class \textbf{BEMLaplace3D} is initialized, which we will use to solve the equation:
+Let's describe an example of working with code to solve a specific problem. First of all, you need to set the geometry of the surface that limits the computational area; for a STL file this is done using a simple function **stl2points** that returns the $(N, 3)$ arrays of $x$, $y$ and $z$ coordinates of the boundary elements (triangles) and their number - $N$. Next, an instance of the class **BEMLaplace3D** is initialized, which we will use to solve the equation:
 
 ```python
 N, xt, yt, zt = stl2points(stl_file_path)
@@ -43,13 +43,13 @@ Also, if the initial equation being solved is a Poisson equation with a constant
 bct, bcv = solver.bc_correction(bct, bcv, rhs_const)
 ```
 
-The most computationally difficult step - solving a system of linear equations (\ref{eq:29}) - is also implemented as a class method:
+The most computationally difficult step - solving a system of linear equations - is also implemented as a class method:
 
 ```python
 phi, dphi = solver.linear_system(bct, bcv)
 ```
 
-Once the value of the function and the normal derivative on the boundary have been found, you can easily find a solution at any point. In order to find a solution in the computational domain, you can use functions to define a mesh. Once the value of the function and the normal derivative on the boundary have been found, you can easily find a solution at any point. In order to find a solution in the computational domain, you can use the \textbf{intersect\_uniform\_mesh} function to specify a 2D triangular unstructured mesh - cutting the region along the $z$-axis, and also to specify a 3D unstructured mesh of tetrahedrons, you can use the \textbf{volume\_mesh} function. Both functions use only a STL file to create the mesh, and some parameters specifying resolution and restrictions. Let us show an example with the function \textbf{intersect\_uniform\_mesh}:
+Once the value of the function and the normal derivative on the boundary have been found, you can easily find a solution at any point. In order to find a solution in the computational domain, you can use functions to define a mesh. Once the value of the function and the normal derivative on the boundary have been found, you can easily find a solution at any point. In order to find a solution in the computational domain, you can use the **intersect_uniform_mesh** function to specify a 2D triangular unstructured mesh - cutting the region along the $z$-axis, and also to specify a 3D unstructured mesh of tetrahedrons, you can use the **volume_mesh** function. Both functions use only a STL file to create the mesh, and some parameters specifying resolution and restrictions. Let us show an example with the function **intersect_uniform_mesh**:
 
 ```python
 x, y, triangles, cutplane = intersect_uniform_mesh(stl_file_path, shift, scale, x_min, x_max, y_min, y_max, resolution, z_slice)
@@ -61,9 +61,9 @@ for i in range(n):
   bem_sol[i] = solver.solution_poisson(x[i], y[i], z_slice, rhs_const, phi, dphi)
 ```
 
-It is also worth noting that the method produces large errors at the boundaries of the solution area. Perhaps this can be corrected by placing points in the volume further from the boundary and subsequently interpolating to the boundary at intermediate points. You can get rid of artifacts at the solution boundary using the function \textbf{artifact\_correction}.
+It is also worth noting that the method produces large errors at the boundaries of the solution area. Perhaps this can be corrected by placing points in the volume further from the boundary and subsequently interpolating to the boundary at intermediate points. You can get rid of artifacts at the solution boundary using the function **artifact_correction**. More examples you can find in notebook.
 
 To use these functions:
 
-1. Ensure that all necessary dependencies, such as `numpy`, `numpy-stl`, `matplotlib`, `vedo`, `numba` are installed.
+1. Ensure that all necessary dependencies, such as **NumPy**, **NumPy-STL**, **Vedo**, **Numba** are installed.
 2. Import the functions into your IDE.
