@@ -19,11 +19,13 @@ where $\Omega$ - three dimensional region with boundary $\partial \Omega = \part
 The program is implemented in the form of a main class 'BEMLaplace3D', which contains the main computationally complex ones - such as solving a system of linear equations, and calculating a solution for a given point in space. This class was accelerated using the 'numba' library, which gave a significant boost. The code also contains some auxiliary subroutines for working with the geometry specified in the STL format file and some simple subroutines for postprocessing.
     
 Let's describe an example of working with code to solve a specific problem. First of all, you need to set the geometry of the surface that limits the computational area; for a STL file this is done using a simple function \textbf{stl2points} that returns the $(N, 3)$ arrays of $x$, $y$ and $z$ coordinates of the boundary elements (triangles) and their number - $N$. Next, an instance of the class \textbf{BEMLaplace3D} is initialized, which we will use to solve the equation:
-    
+
+$$
 \begin{python}
 N, xt, yt, zt = stl2points(stl_file_path)
 solver = BEMLaplace3D(N, xt, yt, zt)
 \end{python}
+$$
 
 The next step is to set the boundary conditions. This is done using two $(N, )$ arrays bct and bcv (boundary condition tracker and boundary condition value), bct can contain either 0 - to indicate that Dirichlet boundary conditions are specified, or 1 - to indicate that Neumann boundary conditions are specified, bcv contains the corresponding value of the boundary condition. An example of specifying dirichlet conditions:
 
